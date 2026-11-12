@@ -1,92 +1,167 @@
-<%- layout('layouts/boilerplate') %>
+<%- layout('layouts/boilerplate', { title: 'Received applications | AdoptEase' }) %>
 
-<section class="listings-section">
+<section class="page-hero page-hero-compact">
+
+    <div class="container page-hero-content">
+
+        <span class="eyebrow eyebrow-light">
+            A new connection might be here
+        </span>
+
+        <h1>People who want to <em>meet them.</em></h1>
+
+        <p>
+            Review adoption applications for the pets you've listed.
+        </p>
+
+    </div>
+
+</section>
+
+<section class="section dashboard-section">
+
     <div class="container">
 
-        <div class="section-heading">
-            <h1>Received Applications</h1>
-            <p>Review applications for your pets.</p>
+        <div class="listing-toolbar-heading">
+
+            <div>
+                <span class="eyebrow">Your inbox</span>
+
+                <h2 class="section-title section-title-small">
+                    Applications <em>received.</em>
+                </h2>
+            </div>
+
+            <a href="/listings/my-listings" class="button button-outline">
+                My listings
+            </a>
+
         </div>
 
-        <% if (applications.length === 0) { %>
+        <% if (!applications.length) { %>
 
-            <div class="empty-state">
-                <h2>No applications received</h2>
-                <p>Applications will appear here.</p>
+            <div class="empty-state empty-state-large">
+
+                <div class="empty-illustration">🐾</div>
+
+                <span class="eyebrow">Room for a new story</span>
+
+                <h2>No applications received.</h2>
+
+                <p>
+                    When someone applies to adopt one of your pets,
+                    their application will appear here.
+                </p>
+
+                <a href="/listings/my-listings" class="button button-primary">
+                    View my listings
+                </a>
+
             </div>
 
         <% } else { %>
 
-            <div class="listing-grid">
+            <div class="received-list">
 
-                <% applications.forEach(application => { %>
+                <% applications.forEach((application) => { %>
 
-                    <div class="listing-card">
-                        <div class="listing-card-content">
+                    <article class="received-card">
 
-                            <h3>
-                                <%= application.pet?.name || 'Pet Unavailable' %>
-                            </h3>
+                        <div class="received-card-top">
 
-                            <p>
-                                <strong>Applicant:</strong>
-                                <%= application.applicant?.displayName || 'Unknown' %>
-                            </p>
+                            <div>
+                                <span class="mini-label">APPLICATION FOR</span>
 
-                            <p>
-                                <strong>Email:</strong>
-                                <%= application.applicant?.email || 'N/A' %>
-                            </p>
+                                <h3>
+                                    <%= application.pet?.name || 'Pet listing unavailable' %>
+                                </h3>
+                            </div>
 
-                            <p>
-                                <strong>Phone:</strong>
-                                <%= application.applicant?.phone || 'N/A' %>
-                            </p>
-
-                            <p>
-                                <strong>Living Situation:</strong>
-                                <%= application.livingSituation %>
-                            </p>
-
-                            <p>
-                                <strong>Reason:</strong>
-                                <%= application.reason %>
-                            </p>
-
-                            <p>
-                                <strong>Experience:</strong>
-                                <%= application.experience %>
-                            </p>
-
-                            <p>
-                                <strong>Status:</strong>
+                            <span class="status-chip status-<%= application.status.toLowerCase() %>">
                                 <%= application.status %>
-                            </p>
+                            </span>
 
-                            <% if (application.status === 'Pending' && application.pet?.adoptionStatus === 'Available') { %>
+                        </div>
+
+                        <div class="applicant-block">
+
+                            <div class="applicant-avatar">
+                                <%= (
+                                    application.applicant?.displayName ||
+                                    application.applicant?.email ||
+                                    '?'
+                                ).charAt(0).toUpperCase() %>
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    <%= application.applicant?.displayName || 'Applicant unavailable' %>
+                                </strong>
+
+                                <span>
+                                    <%= application.applicant?.email || 'Email unavailable' %>
+                                </span>
+
+                                <span>
+                                    <%= application.applicant?.phone || 'Phone unavailable' %>
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                        <div class="received-details">
+
+                            <div>
+                                <span>HOME TYPE</span>
+                                <strong><%= application.livingSituation %></strong>
+                            </div>
+
+                            <div class="received-note">
+                                <span>WHY THEY WANT TO ADOPT</span>
+                                <p><%= application.reason %></p>
+                            </div>
+
+                            <div class="received-note">
+                                <span>PET EXPERIENCE</span>
+                                <p><%= application.experience %></p>
+                            </div>
+
+                        </div>
+
+                        <% if (
+                            application.status === 'Pending' &&
+                            application.pet?.adoptionStatus === 'Available'
+                        ) { %>
+
+                            <div class="received-actions">
 
                                 <form
                                     action="/adoptions/<%= application._id %>/approve?_method=PUT"
                                     method="POST"
+                                    onsubmit="return confirm('Approve this application? The pet will be marked as adopted and other pending applications will be rejected.');"
                                 >
-                                    <button type="submit" class="btn-primary">
-                                        Approve
+                                    <button type="submit" class="button button-primary">
+                                        Approve application ✓
                                     </button>
                                 </form>
 
                                 <form
                                     action="/adoptions/<%= application._id %>/reject?_method=PUT"
                                     method="POST"
+                                    onsubmit="return confirm('Reject this application?');"
                                 >
-                                    <button type="submit" class="btn-danger">
+                                    <button type="submit" class="button button-danger-outline">
                                         Reject
                                     </button>
                                 </form>
 
-                            <% } %>
+                            </div>
 
-                        </div>
-                    </div>
+                        <% } %>
+
+                    </article>
 
                 <% }) %>
 
@@ -95,4 +170,5 @@
         <% } %>
 
     </div>
+
 </section>

@@ -1,57 +1,163 @@
-<%- layout('layouts/boilerplate') %>
+<%- layout('layouts/boilerplate', { title: `Apply to adopt ${pet.name} | AdoptEase` }) %>
 
-<section class="form-section">
-    <div class="form-container">
+<section class="page-hero page-hero-short">
 
-        <h1>Apply to Adopt <%= pet.name %></h1>
+    <div class="container page-hero-content">
+
+        <span class="eyebrow eyebrow-light">
+            A thoughtful first hello
+        </span>
+
+        <h1>
+            Tell us about <em>your home.</em>
+        </h1>
 
         <p>
-            Tell the owner why you would be a good
-            match for <%= pet.name %>.
+            Your answers help the pet owner understand
+            whether this could be a good match.
         </p>
 
-        <form action="/adoptions/<%= pet._id %>" method="POST">
+    </div>
 
-            <div class="form-group">
-                <label>Why do you want to adopt this pet?</label>
+</section>
 
-                <textarea
-                    name="reason"
-                    rows="5"
-                    maxlength="1000"
-                    required
-                ></textarea>
+<section class="section form-page-section">
+
+    <div class="container form-layout">
+
+        <aside class="form-aside">
+
+            <span class="eyebrow">You're applying for</span>
+
+            <div class="apply-pet-card">
+
+                <img
+                    src="<%= pet.images?.[0] || 'https://placehold.co/600x500/e9eee7/315b45?text=Pet+photo' %>"
+                    alt="<%= pet.name %>"
+                >
+
+                <div>
+                    <span class="mini-label">
+                        <%= pet.species %> · <%= pet.breed %>
+                    </span>
+
+                    <h2><%= pet.name %></h2>
+
+                    <p>⌖ <%= pet.location %></p>
+                </div>
+
             </div>
 
-            <div class="form-group">
-                <label>Living Situation</label>
+            <div class="tip-card">
+                <span class="tip-icon">♡</span>
+                <strong>Be open and thoughtful</strong>
 
-                <select name="livingSituation" required>
-                    <option value="">Select</option>
-                    <option value="Apartment">Apartment</option>
-                    <option value="Independent House">
-                        Independent House
-                    </option>
-                    <option value="Farmhouse">Farmhouse</option>
-                    <option value="Other">Other</option>
-                </select>
+                <p>
+                    Adoption is a long-term commitment.
+                    Share honest details about your lifestyle and experience.
+                </p>
             </div>
 
-            <div class="form-group">
-                <label>Previous Pet Experience</label>
+            <a
+                href="/listings/<%= pet._id %>"
+                class="text-link"
+            >
+                Back to <%= pet.name %>'s profile →
+            </a>
 
-                <textarea
-                    name="experience"
-                    rows="4"
-                    required
-                ></textarea>
+        </aside>
+
+        <div class="form-card">
+
+            <div class="form-card-heading">
+                <span class="step-pill">ADOPTION APPLICATION</span>
+                <h2>A little about you</h2>
+                <p>
+                    All fields are required so the owner can
+                    make an informed decision.
+                </p>
             </div>
 
-            <button type="submit" class="btn-primary">
-                Submit Application
-            </button>
+            <form
+                action="/adoptions/<%= pet._id %>"
+                method="POST"
+                class="app-form"
+            >
 
-        </form>
+                <div class="field">
+                    <label for="reason">
+                        Why would you like to adopt <%= pet.name %>? *
+                    </label>
+
+                    <textarea
+                        id="reason"
+                        name="reason"
+                        rows="5"
+                        maxlength="1000"
+                        placeholder="What made you interested in this pet?"
+                        required
+                    ></textarea>
+
+                    <small>Up to 1,000 characters.</small>
+                </div>
+
+                <div class="field">
+                    <label for="livingSituation">
+                        What type of home do you live in? *
+                    </label>
+
+                    <select
+                        id="livingSituation"
+                        name="livingSituation"
+                        required
+                    >
+                        <option value="" disabled selected>
+                            Select your living situation
+                        </option>
+
+                        <option value="Apartment">Apartment</option>
+                        <option value="Independent House">Independent house</option>
+                        <option value="Farmhouse">Farmhouse</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="experience">
+                        Tell us about your experience with pets *
+                    </label>
+
+                    <textarea
+                        id="experience"
+                        name="experience"
+                        rows="5"
+                        maxlength="2000"
+                        placeholder="Have you cared for pets before?"
+                        required
+                    ></textarea>
+
+                    <small>Up to 2,000 characters.</small>
+                </div>
+
+                <div class="form-footer">
+
+                    <a
+                        href="/listings/<%= pet._id %>"
+                        class="button button-outline"
+                    >
+                        Cancel
+                    </a>
+
+                    <button type="submit" class="button button-primary">
+                        Submit application ↗
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
 
     </div>
+
 </section>

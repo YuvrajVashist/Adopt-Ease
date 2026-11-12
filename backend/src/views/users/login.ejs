@@ -1,49 +1,53 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<%- layout('layouts/boilerplate', { title: 'Log in | AdoptEase' }) %>
 
-    <title>Adopt-Ease | Login</title>
-    <link rel="stylesheet" href="/style.css">
-</head>
+<section class="auth-section">
 
-<body>
+    <div class="container auth-layout">
 
-    <header class="navbar">
-        <a href="/" class="logo">🐾 Adopt-Ease</a>
+        <div class="auth-art auth-art-login">
 
-        <nav>
-            <a href="/">Home</a>
-            <a href="/listings">Animal Listings</a>
-            <a href="/user/register">Register</a>
-        </nav>
-    </header>
+            <span class="eyebrow eyebrow-light">Welcome back</span>
 
-    <main>
+            <div class="auth-illustration">🐕</div>
 
-        <section class="section form-section">
+            <h1>
+                Good to see<br>
+                you <em>again.</em>
+            </h1>
 
-            <div class="section-heading">
-                <p class="eyebrow">WELCOME BACK</p>
+            <p>
+                Your next chapter with a four-legged friend
+                could be one click away.
+            </p>
 
-                <h1>Login to Adopt-Ease</h1>
-
-                <p>
-                    Sign in to manage your listings and
-                    track your adoption applications.
-                </p>
+            <div class="auth-art-foot">
+                ♡ Every connection starts somewhere.
             </div>
 
-            <form action="/login" method="POST" class="dog-form">
+        </div>
+
+        <div class="auth-panel">
+
+            <div class="auth-panel-heading">
+                <span class="eyebrow">Your account</span>
+                <h2>Log in to AdoptEase</h2>
+                <p>Pick up where you left off.</p>
+            </div>
+
+            <form
+                action="/login"
+                method="POST"
+                class="app-form auth-form"
+            >
 
                 <div class="field">
-                    <label for="email">Email Address</label>
+                    <label for="email">Email address</label>
 
                     <input
                         type="email"
                         id="email"
                         name="email"
+                        autocomplete="email"
                         placeholder="you@example.com"
                         required
                     >
@@ -56,34 +60,28 @@
                         type="password"
                         id="password"
                         name="password"
+                        autocomplete="current-password"
                         placeholder="Enter your password"
                         required
                     >
                 </div>
 
-                <div class="form-actions">
-
-                    <button type="submit" class="primary-btn">
-                        Login
-                    </button>
-
-                </div>
-
-                <p class="auth-switch">
-                    Don't have an account?
-                    <a href="/register">Create an account</a>
-                </p>
+                <button
+                    type="submit"
+                    class="button button-primary button-block"
+                >
+                    Log in →
+                </button>
 
             </form>
 
-        </section>
+            <p class="auth-switch">
+                New to AdoptEase?
+                <a href="/register">Create an account</a>
+            </p>
 
-    </main>
+        </div>
 
-    <footer>
-        <strong>🐾 Adopt-Ease</strong>
-        <p>Helping animals find loving homes.</p>
-    </footer>
+    </div>
 
-</body>
-</html>
+</section>

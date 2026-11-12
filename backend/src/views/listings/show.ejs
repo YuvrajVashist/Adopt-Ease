@@ -1,72 +1,164 @@
-<%- layout('layouts/boilerplate') %>
+<%- layout('layouts/boilerplate', { title: `${listing.name} | AdoptEase` }) %>
 
-<section class="pet-details-section">
+<section class="section pet-detail-section">
 
-    <div class="pet-details-container">
+    <div class="container">
 
-        <div class="pet-image">
-            <img
-                src="<%= listing.images?.[0] || 'https://placehold.co/600x450?text=Pet+Image' %>"
-                alt="<%= listing.name %>"
-            >
+        <div class="breadcrumb">
+            <a href="/listings">Find a pet</a>
+            <span>/</span>
+            <span><%= listing.name %></span>
         </div>
 
-        <div class="pet-information">
+        <div class="pet-detail-grid">
 
-            <span class="pet-species">
-                <%= listing.species %>
-            </span>
+            <div class="detail-photo-wrap">
 
-            <h1><%= listing.name %></h1>
+                <img
+                    class="detail-photo"
+                    src="<%= listing.images?.[0] || 'https://placehold.co/1000x1000/e9eee7/315b45?text=Pet+photo' %>"
+                    alt="<%= listing.name %>"
+                >
 
-            <p class="pet-breed"><%= listing.breed %></p>
+                <span class="detail-photo-tag">
+                    A new friend awaits
+                </span>
 
-            <div class="pet-meta">
-                <p><strong>Age:</strong> <%= listing.age %> years</p>
-                <p><strong>Gender:</strong> <%= listing.gender %></p>
-                <p><strong>Location:</strong> <%= listing.location %></p>
-                <p><strong>Health:</strong> <%= listing.healthStatus %></p>
-                <p>
-                    <strong>Vaccinated:</strong>
-                    <%= listing.vaccinationStatus ? 'Yes' : 'No' %>
+            </div>
+
+            <div class="detail-content">
+
+                <div class="detail-kicker">
+                    <span class="availability-dot"></span>
+                    <%= listing.adoptionStatus %>
+                    <span class="dot-separator">·</span>
+                    <%= listing.species %>
+                </div>
+
+                <h1 class="detail-title">
+                    <%= listing.name %>
+                    <span class="detail-heart">♡</span>
+                </h1>
+
+                <p class="detail-breed">
+                    <%= listing.breed %>
                 </p>
-                <p><strong>Status:</strong> <%= listing.adoptionStatus %></p>
-            </div>
 
-            <h3>About <%= listing.name %></h3>
+                <div class="detail-facts">
 
-            <p><%= listing.description %></p>
+                    <div>
+                        <span>AGE</span>
+                        <strong><%= listing.age %> years</strong>
+                    </div>
 
-            <div class="owner-information">
-                <h3>Listed By</h3>
-                <p><%= listing.owner?.username || listing.owner?.email || 'Pet Owner' %></p>
-            </div>
+                    <div>
+                        <span>GENDER</span>
+                        <strong><%= listing.gender %></strong>
+                    </div>
 
-            <div class="pet-actions">
+                    <div>
+                        <span>LOCATION</span>
+                        <strong><%= listing.location %></strong>
+                    </div>
 
-                <% if (currentUser && listing.owner && String(listing.owner._id) === String(currentUser._id)) { %>
+                </div>
 
-                    <a href="/listings/<%= listing._id %>/edit" class="btn-primary">
-                        Edit Listing
-                    </a>
+                <div class="detail-description">
+                    <h2>A little about <%= listing.name %></h2>
+                    <p><%= listing.description %></p>
+                </div>
 
-                    <form
-                        action="/listings/<%= listing._id %>?_method=DELETE"
-                        method="POST"
-                        onsubmit="return confirm('Are you sure you want to delete this listing?')"
-                    >
-                        <button type="submit" class="btn-danger">
-                            Delete Listing
-                        </button>
-                    </form>
+                <div class="health-note">
+                    <div>
+                        <span class="health-symbol">✚</span>
 
-                <% } else if (listing.adoptionStatus === 'Available') { %>
+                        <span>
+                            <strong>Health information</strong>
 
-                    <a href="/adoptions/new/<%= listing._id %>" class="btn-primary">
-                        Apply for Adoption
-                    </a>
+                            <small>
+                                <%= listing.healthStatus || 'Not specified' %>
+                                · Vaccinated:
+                                <%= listing.vaccinationStatus ? 'Yes' : 'No / Not confirmed' %>
+                            </small>
+                        </span>
+                    </div>
+                </div>
 
-                <% } %>
+                <div class="owner-card">
+
+                    <div class="owner-avatar">♧</div>
+
+                    <div>
+                        <span class="mini-label">LISTED BY</span>
+
+                        <strong>
+                            <%= listing.owner?.displayName || listing.owner?.email || 'Pet owner' %>
+                        </strong>
+
+                        <small>
+                            <%= listing.owner?.phone || 'Contact details unavailable' %>
+                        </small>
+                    </div>
+
+                </div>
+
+                <div class="detail-actions">
+
+                    <% if (
+                        currentUser &&
+                        listing.owner &&
+                        String(listing.owner._id) === String(currentUser._id)
+                    ) { %>
+
+                        <a
+                            href="/listings/<%= listing._id %>/edit"
+                            class="button button-primary"
+                        >
+                            Edit listing
+                        </a>
+
+                        <form
+                            action="/listings/<%= listing._id %>?_method=DELETE"
+                            method="POST"
+                            onsubmit="return confirm('Delete this pet listing and its applications? This cannot be undone.');"
+                        >
+                            <button type="submit" class="button button-danger">
+                                Delete listing
+                            </button>
+                        </form>
+
+                    <% } else if (listing.adoptionStatus === 'Available') { %>
+
+                        <% if (currentUser) { %>
+
+                            <a
+                                href="/adoptions/new/<%= listing._id %>"
+                                class="button button-primary"
+                            >
+                                Apply to adopt ↗
+                            </a>
+
+                        <% } else { %>
+
+                            <a href="/user/login" class="button button-primary">
+                                Log in to apply ↗
+                            </a>
+
+                        <% } %>
+
+                    <% } else { %>
+
+                        <span class="status-message">
+                            Applications are closed for this pet.
+                        </span>
+
+                    <% } %>
+
+                </div>
+
+                <a href="/listings" class="back-link">
+                    ← Back to all animals
+                </a>
 
             </div>
 

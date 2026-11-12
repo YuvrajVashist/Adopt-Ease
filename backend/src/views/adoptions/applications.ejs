@@ -1,60 +1,135 @@
-<%- layout('layouts/boilerplate') %>
+<%- layout('layouts/boilerplate', { title: 'My adoption applications | AdoptEase' }) %>
 
-<section class="listings-section">
+<section class="page-hero page-hero-compact">
+
+    <div class="container page-hero-content">
+
+        <span class="eyebrow eyebrow-light">
+            Every application is a possibility
+        </span>
+
+        <h1>Your adoption <em>journey.</em></h1>
+
+        <p>
+            Keep an eye on the status of the pets
+            you've applied to welcome home.
+        </p>
+
+    </div>
+
+</section>
+
+<section class="section dashboard-section">
+
     <div class="container">
 
-        <div class="section-heading">
-            <h1>My Adoption Applications</h1>
-            <p>Track the status of your applications.</p>
+        <div class="listing-toolbar-heading">
+
+            <div>
+                <span class="eyebrow">Your activity</span>
+
+                <h2 class="section-title section-title-small">
+                    Applications <em>sent.</em>
+                </h2>
+            </div>
+
+            <a href="/listings" class="button button-outline">
+                Find more pets
+            </a>
+
         </div>
 
-        <% if (applications.length === 0) { %>
+        <% if (!applications.length) { %>
 
-            <div class="empty-state">
-                <h2>No applications yet</h2>
-                <p>You haven't applied to adopt a pet.</p>
+            <div class="empty-state empty-state-large">
 
-                <a href="/listings" class="btn-primary">
-                    Browse Pets
+                <div class="empty-illustration">💌</div>
+
+                <span class="eyebrow">The first step is yours</span>
+
+                <h2>No applications yet.</h2>
+
+                <p>
+                    Browse available animals and send an application
+                    when you find a good match.
+                </p>
+
+                <a href="/listings" class="button button-primary">
+                    Explore animals
                 </a>
+
             </div>
 
         <% } else { %>
 
-            <div class="listing-grid">
+            <div class="application-list">
 
-                <% applications.forEach(application => { %>
+                <% applications.forEach((application) => { %>
 
-                    <div class="listing-card">
-                        <div class="listing-card-content">
+                    <article class="application-card">
 
-                            <h3>
-                                <%= application.pet?.name || 'Pet Unavailable' %>
-                            </h3>
+                        <div class="application-pet-thumb">
 
-                            <p>
-                                Status:
-                                <strong><%= application.status %></strong>
-                            </p>
+                            <% if (application.pet?.images?.[0]) { %>
 
-                            <p>
-                                Applied:
-                                <%= application.createdAt.toLocaleDateString() %>
-                            </p>
-
-                            <p><%= application.reason %></p>
-
-                            <% if (application.pet) { %>
-                                <a
-                                    href="/listings/<%= application.pet._id %>"
-                                    class="btn-primary"
+                                <img
+                                    src="<%= application.pet.images[0] %>"
+                                    alt="<%= application.pet.name %>"
                                 >
-                                    View Pet
-                                </a>
+
+                            <% } else { %>
+
+                                <span>🐾</span>
+
                             <% } %>
 
                         </div>
-                    </div>
+
+                        <div class="application-main">
+
+                            <span class="mini-label">
+                                SUBMITTED
+                                <%= application.createdAt ? new Date(application.createdAt).toLocaleDateString() : '' %>
+                            </span>
+
+                            <h3>
+                                <%= application.pet?.name || 'Pet listing unavailable' %>
+                            </h3>
+
+                            <p>
+                                <%= application.pet
+                                    ? `${application.pet.species} · ${application.pet.breed} · ${application.pet.location}`
+                                    : 'The original listing may have been removed.'
+                                %>
+                            </p>
+
+                            <p class="application-reason">
+                                <strong>Your note:</strong>
+                                <%= application.reason %>
+                            </p>
+
+                        </div>
+
+                        <div class="application-status-block">
+
+                            <span class="status-chip status-<%= application.status.toLowerCase() %>">
+                                <%= application.status %>
+                            </span>
+
+                            <% if (application.pet) { %>
+
+                                <a
+                                    class="text-link"
+                                    href="/listings/<%= application.pet._id %>"
+                                >
+                                    View pet →
+                                </a>
+
+                            <% } %>
+
+                        </div>
+
+                    </article>
 
                 <% }) %>
 
@@ -63,4 +138,5 @@
         <% } %>
 
     </div>
+
 </section>

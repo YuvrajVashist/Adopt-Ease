@@ -1,201 +1,140 @@
-```ejs
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<%- layout('layouts/boilerplate', { title: 'Create a pet listing | AdoptEase' }) %>
 
-    <title>Adopt-Ease | Create Listing</title>
+<section class="page-hero page-hero-short">
 
-    <link rel="stylesheet" href="/style.css">
-</head>
+    <div class="container page-hero-content">
 
-<body>
+        <span class="eyebrow eyebrow-light">
+            Help them find their person
+        </span>
 
-    <!-- NAVBAR -->
-    <header class="navbar">
-        <a href="/" class="logo">
-            <span role="img" aria-label="paw icon">🐾</span>
-            Adopt-Ease
-        </a>
+        <h1>Give a pet a <em>fresh start.</em></h1>
 
-        <nav aria-label="Main Navigation">
-            <a href="/">Home</a>
-            <a href="/listings">Animal Listings</a>
-            <a href="/listings/new">List an Animal</a>
-        </nav>
-    </header>
+        <p>
+            This is the legacy listing form.
+            The active route uses listings/new.ejs.
+        </p>
 
-    <main>
+    </div>
 
-        <section class="section form-section">
+</section>
 
-            <!-- PAGE HEADING -->
-            <div class="section-heading">
-                <p class="eyebrow">GIVE AN ANIMAL A HOME</p>
+<section class="section form-page-section">
 
-                <h1>Create an Adoption Listing</h1>
+    <div class="container form-layout">
 
-                <p>
-                    Share an animal's details to help them find
-                    a caring and responsible home.
-                </p>
+        <aside class="form-aside">
+            <span class="eyebrow">Before you begin</span>
+            <h2>Tell their story.</h2>
+            <p class="muted-copy">
+                Share accurate details and a clear photo.
+            </p>
+        </aside>
+
+        <div class="form-card">
+
+            <div class="form-card-heading">
+                <span class="step-pill">NEW LISTING</span>
+                <h2>Pet details</h2>
             </div>
 
-            <!-- LISTING FORM -->
-            <form
-                action="/listings"
-                method="POST"
-                class="dog-form"
-            >
+            <form action="/listings" method="POST" class="app-form">
 
                 <div class="form-grid">
 
-                    <!-- ANIMAL NAME -->
                     <div class="field">
-                        <label for="name">Animal Name</label>
-
-                        <input
-                            type="text"
-                            id="name"
-                            name="name"
-                            placeholder="e.g. Max"
-                            required
-                        >
+                        <label for="name">Pet's name *</label>
+                        <input id="name" name="name" type="text" required>
                     </div>
 
-                    <!-- SPECIES -->
                     <div class="field">
-                        <label for="species">Species</label>
+                        <label for="species">Animal type *</label>
 
                         <select id="species" name="species" required>
-                            <option value="" disabled selected>
-                                Select species
-                            </option>
-
+                            <option value="" disabled selected>Select type</option>
                             <option value="Dog">Dog</option>
                             <option value="Cat">Cat</option>
-                            <option value="Rabbit">Rabbit</option>
                             <option value="Bird">Bird</option>
+                            <option value="Rabbit">Rabbit</option>
                             <option value="Other">Other</option>
                         </select>
                     </div>
 
-                    <!-- BREED -->
                     <div class="field">
-                        <label for="breed">Breed</label>
-
-                        <input
-                            type="text"
-                            id="breed"
-                            name="breed"
-                            placeholder="e.g. Labrador or Mixed Breed"
-                            required
-                        >
+                        <label for="breed">Breed *</label>
+                        <input id="breed" name="breed" type="text" required>
                     </div>
 
-                    <!-- AGE -->
                     <div class="field">
-                        <label for="age">Age (in years)</label>
-
-                        <input
-                            type="number"
-                            id="age"
-                            name="age"
-                            min="0"
-                            max="100"
-                            step="1"
-                            placeholder="Enter age"
-                            required
-                        >
+                        <label for="age">Age in years *</label>
+                        <input id="age" name="age" type="number" min="0" required>
                     </div>
 
-                    <!-- GENDER -->
                     <div class="field">
-                        <label for="gender">Gender</label>
+                        <label for="gender">Gender *</label>
 
                         <select id="gender" name="gender" required>
-                            <option value="" disabled selected>
-                                Select gender
-                            </option>
-
+                            <option value="" disabled selected>Select gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
                             <option value="Unknown">Unknown</option>
                         </select>
                     </div>
 
-                    <!-- LOCATION -->
                     <div class="field">
-                        <label for="location">Location</label>
-
-                        <input
-                            type="text"
-                            id="location"
-                            name="location"
-                            placeholder="City, State"
-                            required
-                        >
+                        <label for="location">Location *</label>
+                        <input id="location" name="location" type="text" required>
                     </div>
 
-                    <!-- IMAGE URL -->
-                    <div class="field full-width">
-                        <label for="image">Animal Image URL</label>
+                    <div class="field field-span-2">
+                        <label for="image">Photo URL</label>
+                        <input id="image" name="image" type="url">
+                    </div>
 
-                        <input
-                            type="url"
-                            id="image"
-                            name="image"
-                            placeholder="https://example.com/animal.jpg"
+                    <div class="field">
+                        <label for="healthStatus">Health status</label>
+                        <input id="healthStatus" name="healthStatus" type="text">
+                    </div>
+
+                    <div class="field">
+                        <label for="vaccinationStatus">Vaccinated?</label>
+
+                        <select id="vaccinationStatus" name="vaccinationStatus">
+                            <option value="false">No / Not confirmed</option>
+                            <option value="true">Yes</option>
+                        </select>
+                    </div>
+
+                    <div class="field field-span-2">
+                        <label for="description">About this pet *</label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            rows="5"
+                            maxlength="2000"
                             required
-                        >
+                        ></textarea>
                     </div>
 
                 </div>
 
-                <!-- DESCRIPTION -->
-                <div class="field full-width">
-                    <label for="description">About the Animal</label>
+                <div class="form-footer">
 
-                    <textarea
-                        id="description"
-                        name="description"
-                        rows="5"
-                        placeholder="Describe the animal's personality, health, habits, and ideal home..."
-                        minlength="10"
-                        maxlength="2000"
-                        required
-                    ></textarea>
-                </div>
-
-                <!-- ACTIONS -->
-                <div class="form-actions">
-
-                    <button type="submit" class="primary-btn">
-                        Publish Listing
-                    </button>
-
-                    <a href="/listings" class="secondary-btn">
+                    <a href="/listings" class="button button-outline">
                         Cancel
                     </a>
+
+                    <button type="submit" class="button button-primary">
+                        Publish listing ↗
+                    </button>
 
                 </div>
 
             </form>
 
-        </section>
+        </div>
 
-    </main>
+    </div>
 
-    <!-- FOOTER -->
-    <footer>
-        <strong>🐾 Adopt-Ease</strong>
-
-        <p>
-            Helping animals find loving homes, one adoption at a time.
-        </p>
-    </footer>
-
-</body>
-</html>
-```
+</section>

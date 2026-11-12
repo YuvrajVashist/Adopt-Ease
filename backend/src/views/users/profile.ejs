@@ -1,36 +1,77 @@
-<%- layout('layouts/boilerplate') %>
+<%- layout('layouts/boilerplate', { title: 'My account | AdoptEase' }) %>
 
-<section class="listings-section">
+<section class="page-hero page-hero-compact">
+
+    <div class="container page-hero-content">
+
+        <span class="eyebrow eyebrow-light">
+            Your AdoptEase space
+        </span>
+
+        <h1>
+            Welcome home,
+            <em><%= user.displayName || user.email %>.</em>
+        </h1>
+
+        <p>
+            Your adoption activity, listings, and account details
+            in one place.
+        </p>
+
+    </div>
+
+</section>
+
+<section class="section dashboard-section">
+
     <div class="container">
-
-        <div class="section-heading">
-            <h1>
-                Welcome, <%= user.displayName || user.email %>!
-            </h1>
-
-            <p>Manage your account and adoption activities.</p>
-        </div>
 
         <div class="profile-card">
 
             <div class="profile-avatar">
-                🐾
+                <%= (user.displayName || user.email || 'A').charAt(0).toUpperCase() %>
             </div>
 
-            <div class="profile-details">
+            <div class="profile-main">
 
-                <h2><%= user.displayName || 'Adopt-Ease Member' %></h2>
+                <span class="eyebrow">ACCOUNT DETAILS</span>
+
+                <h2>
+                    <%= user.displayName || 'AdoptEase member' %>
+                </h2>
 
                 <p><%= user.email %></p>
 
-                <p><%= user.phone %></p>
+            </div>
 
-                <p><%= user.address %></p>
+            <div class="profile-contact">
 
-                <span class="role-badge">
-                    <%= user.role %>
+                <span>
+                    <strong>Phone</strong>
+                    <%= user.phone || 'Not provided' %>
                 </span>
 
+                <span>
+                    <strong>Location</strong>
+                    <%= user.address || 'Not provided' %>
+                </span>
+
+            </div>
+
+            <span class="role-chip">
+                <%= user.role || 'Member' %>
+            </span>
+
+        </div>
+
+        <div class="dashboard-heading">
+
+            <div>
+                <span class="eyebrow">Your activity</span>
+
+                <h2 class="section-title section-title-small">
+                    Your <em>dashboard.</em>
+                </h2>
             </div>
 
         </div>
@@ -38,30 +79,39 @@
         <div class="dashboard-grid">
 
             <a href="/listings/my-listings" class="dashboard-card">
-                <span>🏠</span>
-                <h3>My Listings</h3>
-                <p>Manage your pet listings.</p>
+                <span class="dashboard-icon">⌂</span>
+                <span class="dashboard-card-kicker">FOR PET OWNERS</span>
+                <h3>My listings</h3>
+                <p>View and manage the animals you've listed.</p>
+                <span class="dashboard-arrow">↗</span>
             </a>
 
             <a href="/adoptions/my-applications" class="dashboard-card">
-                <span>📋</span>
-                <h3>My Applications</h3>
-                <p>Track your adoption applications.</p>
+                <span class="dashboard-icon">♡</span>
+                <span class="dashboard-card-kicker">YOUR ADOPTION JOURNEY</span>
+                <h3>My applications</h3>
+                <p>Keep track of the pets you've applied to adopt.</p>
+                <span class="dashboard-arrow">↗</span>
             </a>
 
             <a href="/adoptions/received" class="dashboard-card">
-                <span>🐾</span>
-                <h3>Received Applications</h3>
-                <p>Review applications for your pets.</p>
+                <span class="dashboard-icon">✉</span>
+                <span class="dashboard-card-kicker">FOR PET OWNERS</span>
+                <h3>Received applications</h3>
+                <p>Review people interested in adopting your pets.</p>
+                <span class="dashboard-arrow">↗</span>
             </a>
 
-            <a href="/listings/new" class="dashboard-card">
-                <span>➕</span>
-                <h3>Create Listing</h3>
-                <p>List a new pet for adoption.</p>
+            <a href="/listings/new" class="dashboard-card dashboard-card-accent">
+                <span class="dashboard-icon">＋</span>
+                <span class="dashboard-card-kicker">MAKE A DIFFERENCE</span>
+                <h3>List a pet</h3>
+                <p>Help an animal take the next step towards a home.</p>
+                <span class="dashboard-arrow">↗</span>
             </a>
 
         </div>
 
     </div>
+
 </section>

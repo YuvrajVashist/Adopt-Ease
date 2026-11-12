@@ -14,7 +14,7 @@ const router = express.Router();
 // ALLOWED PET FIELDS
 
 const getPetData = (body) => {
-    const {
+    const { 
         name,
         species,
         breed,
@@ -135,8 +135,9 @@ router.get('/my-listings', isLoggedIn, async (req, res, next) => {
     }
 });
 
-// NEW LISTING FORM
 
+
+// NEW LISTING FORM
 router.get('/new', isLoggedIn, (req, res) => {
     res.render('listings/new.ejs');
 });
